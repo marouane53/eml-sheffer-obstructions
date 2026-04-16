@@ -1,53 +1,73 @@
-# Obstructions to Self-Seeding Sheffer Operators for Calculator-Style Elementary Functions
+# From fixed points to two-cycles: obstructions and orbit lifts for analytic self-seeding Sheffer operators
 
-Repository for the manuscript and compiled PDF of the note by Marouane Lamharzi Alaoui.
+Repository for the manuscript bundle by Marouane Lamharzi Alaoui on
+self-seeding Sheffer operators, analytic orbit lifts, and the EML
+construction.
 
 GitHub repository: <https://github.com/marouane53/eml-sheffer-obstructions>
 
-## Overview
+## Main Manuscript
 
-This repository contains a short research note responding to open problems from
-Andrzej Odrzywolek's "All elementary functions from a single operator"
-([arXiv:2603.21852v2](https://arxiv.org/abs/2603.21852)).
+The canonical paper in this repository is the revised manuscript in
+[`paper/`](paper/). It extends the earlier obstruction note and now includes:
 
-The paper studies whether Odrzywolek's `eml(x, y) = e^x - log(y)` construction
-admits a single self-seeding binary primitive and whether a purely real tame
-analog could generate the same calculator-style basis of elementary functions.
-
-## Main Results
-
-- Diagonal ideal obstruction: an analytic binary germ with constant diagonal
-  `f(x, x) = c` generates only term germs that fix `c`, so the one-step
-  constant-diagonal self-seeding strategy cannot work.
-- Hardy-field obstruction: a purely real logarithmico-exponential primitive
-  generates unary tail-germs that are eventually monotone, so periodic targets
-  such as `sin` and `cos` cannot appear.
-- Branch-correct EML clarification: under a lower-edge logarithm convention,
-  the reconstructed logarithm matches the principal logarithm and the `log(-1)`
-  sign comes out correctly.
-- Off-diagonal fiber criterion: any multi-step constant unary term must force
-  an off-diagonal analytic curve in a level set of the primitive, isolating the
-  remaining geometric search space for tame self-seeding constructions.
+- the diagonal ideal obstruction for constant-diagonal analytic germs
+- the Hardy-field obstruction for purely real logarithmico-exponential
+  primitives
+- fixed-point lift constructions that recover prescribed unary germs
+- disconnected finite-orbit and diagonal two-cycle lift results
+- one-slice, two-slice, and four-slice interpolation theorems
+- an explicit numerically verified complex exponential 2-cycle
+- a branch-correct appendix for the core EML identities
 
 ## Repository Layout
 
-- [paper/obstructions_sheffer.pdf](paper/obstructions_sheffer.pdf) - compiled
-  manuscript
-- [paper/obstructions_sheffer.tex](paper/obstructions_sheffer.tex) - LaTeX
-  source with embedded bibliography
+- [`paper/self_seeding_sheffer_paper.pdf`](paper/self_seeding_sheffer_paper.pdf)
+  - compiled PDF of the current main manuscript
+- [`paper/self_seeding_sheffer_paper.tex`](paper/self_seeding_sheffer_paper.tex)
+  - LaTeX source for the current main manuscript
+- [`paper/references.bib`](paper/references.bib)
+  - bibliography for the current main manuscript
+- [`paper/verify_two_cycle.py`](paper/verify_two_cycle.py)
+  - numerical verification script for the explicit exponential 2-cycle from
+    Section 6
+- [`paper_obstructions_note/obstructions_sheffer.pdf`](paper_obstructions_note/obstructions_sheffer.pdf)
+  - compiled PDF of the earlier shorter obstruction note
+- [`paper_obstructions_note/obstructions_sheffer.tex`](paper_obstructions_note/obstructions_sheffer.tex)
+  - LaTeX source for the earlier shorter obstruction note
 
 ## Build
 
-From the repository root:
+Build the current main manuscript from the repository root with:
 
 ```sh
 cd paper
+pdflatex -interaction=nonstopmode self_seeding_sheffer_paper.tex
+bibtexu self_seeding_sheffer_paper
+pdflatex -interaction=nonstopmode self_seeding_sheffer_paper.tex
+pdflatex -interaction=nonstopmode self_seeding_sheffer_paper.tex
+```
+
+Build the earlier note with:
+
+```sh
+cd paper_obstructions_note
 pdflatex obstructions_sheffer.tex
 pdflatex obstructions_sheffer.tex
 ```
 
-No BibTeX step is required because the bibliography is included directly in the
-source file.
+## Verification
+
+The revised manuscript includes a numerical verification script that uses
+`mpmath` with 80-digit precision to refine the explicit exponential 2-cycle,
+check the logarithm branches, and verify the residual identities used in the
+computational subsection.
+
+Run it with:
+
+```sh
+python3 paper/verify_two_cycle.py
+```
 
 ## Author
 
@@ -57,9 +77,6 @@ marouane@firassa.ai
 
 ## License
 
-The manuscript source and compiled paper in this repository are licensed under
+The manuscript sources and compiled PDFs in this repository are licensed under
 the Creative Commons Attribution 4.0 International License. See
 [LICENSE](LICENSE) for the repository notice and canonical license link.
-
-If standalone software is added later, it is usually better to license that
-code separately under a software license such as MIT or Apache-2.0.

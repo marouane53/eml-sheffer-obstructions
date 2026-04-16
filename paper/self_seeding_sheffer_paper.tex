@@ -1,0 +1,1606 @@
+\documentclass[11pt]{amsart}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsthm,amssymb,mathtools}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+\numberwithin{equation}{section}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\LE}{\mathrm{LE}}
+\newcommand{\calc}{B_{\mathrm{calc}}}
+\newcommand{\Clo}{\operatorname{Clo}}
+\newcommand{\Argdown}{\operatorname{Arg}_{\downarrow}}
+\newcommand{\Logdown}{\operatorname{Log}_{\downarrow}}
+\newcommand{\Logp}{\operatorname{Log}}
+\newcommand{\eml}{\operatorname{eml}}
+\newcommand{\Oc}{\mathcal{O}}
+\newcommand{\mc}{\mathfrak m}
+\newcommand{\id}{\operatorname{id}}
+
+\title[From fixed points to two-cycles]{From fixed points to two-cycles:\ obstructions and orbit lifts for analytic self-seeding Sheffer operators}
+
+\author{Marouane Lamharzi Alaoui}
+\address{Firassa AI}
+\email{marouane@firassa.ai}
+\date{April 13, 2026}
+
+\subjclass[2020]{08A40, 30D05, 26A12, 12H05, 13J07}
+\keywords{Sheffer operators, analytic germs, finite orbits, Hardy fields, EML, synchronizing clones}
+
+\begin{document}
+
+\begin{abstract}
+Odrzywo{\l}ek showed that the pair $(1,\eml)$, with $\eml(x,y)=e^x-\log y$, generates a concrete scientific-calculator basis of elementary functions. We study whether the external constant can be removed inside holomorphic and real-analytic regularity classes. We prove first a diagonal ideal obstruction: if a holomorphic or real-analytic binary germ has constant diagonal $f(x,x)\equiv c$, then every term germ generated from $f$ and the projections lies in $c$ plus the maximal ideal of the diagonal point. In particular every unary term fixes $c$, and $c$ is the only constant obtainable from arbitrary input. We prove next a Hardy-field obstruction for purely real logarithmico-exponential primitives: every unary term defined on a tail is again logarithmico-exponential on a smaller tail and hence eventually monotone, so neither $\sin$ nor $\cos$ can occur.
+
+These obstructions are not final. We classify all depth-two constant unary terms at a fixed point, derive the affine linearization forced by their first jets, construct fixed-point lifts that recover prescribed unary germs such as $e^x$ and $\sin x$, and prove a fixed-seed obstruction showing that fixed-point lifts can never generate a second constant. We then pass to germs along finite orbits. For disconnected finite-orbit germs, pure constant generation is shown to be combinatorial. For a diagonal $2$-cycle we classify the finite two-state shadow, describe the affine space of all analytic reset lifts, and prove one-slice, two-slice, and four-slice interpolation theorems. The two-slice theorem has a single jet compatibility condition. In particular, along any complex $2$-cycle of $e^z$, one obtains on a disconnected union of two neighborhoods a holomorphic binary germ whose unary term clone contains two distinct constants, the exponential germ, and a local logarithm branch; an explicit $80$-digit cycle is verified numerically. An appendix isolates the branch-correct core EML identities under the lower-edge logarithm convention. The remaining frontier is no longer local multi-constant self-seeding but connected or global realization with coherent branch data.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+Odrzywo{\l}ek has shown that the pair $(1,\eml)$, with
+\begin{equation}\label{eq:intro-eml}
+\eml(x,y)=e^x-\log y,
+\end{equation}
+generates a concrete scientific-calculator basis of elementary functions, constants, and arithmetic operations \cite{Odrzywolek2026}. The claim is not about the full Liouville--Ritt notion of elementary extension. It is about the finite basis displayed in Table~1 of \cite{Odrzywolek2026}, and that is the target throughout this paper. The analogy with the Sheffer stroke is immediate: one binary operator, together with one distinguished constant, suffices for a whole practical language of computation \cite{Sheffer1913}.
+
+The next question is whether the external constant can be removed. In other words, can one find a single binary operator whose term clone seeds its own constants? At the level of unrestricted clone theory this is not the interesting part of the problem. Evans proved that countably generated varieties admit binary presentations \cite{Evans1989}, and Goldstern observed more generally that on any infinite set a single binary operation can generate any finite or countable family of target operations \cite{Goldstern2010}; see also Goldstern and Pinsker's survey \cite{GoldsternPinsker2008}. The interesting problem begins only when one imposes regularity.
+
+The first part of the paper concerns germs at one point. Theorem~\ref{thm:diag-ideal} shows that the entire constant-diagonal strategy fails in the holomorphic and real-analytic categories: if $f(x,x)\equiv c$, then every term germ is congruent to $c$ modulo the maximal ideal of the diagonal point. In particular every unary term fixes $c$, and $c$ is the only constant obtainable from arbitrary input. Theorem~\ref{thm:hardy} gives a different obstruction for purely real logarithmico-exponential primitives. Every unary term defined on a tail is again logarithmico-exponential on a smaller tail and therefore belongs to a Hardy field. Such germs are eventually monotone, so neither $\sin$ nor $\cos$ can occur.
+
+Those obstructions do not end the story. Section~\ref{sec:one-point-self-seeding} shows that once the diagonal is allowed to move, self-seeding and transcendental content can coexist. We isolate the geometry of minimal-depth constant terms, classify all depth-two traps by divisibility in the local analytic ring, derive the affine jet constraint behind Odrzywo{\l}ek's affine example $x-y/2$, and prove a fixed-point lift theorem that embeds any analytic unary germ $A$ with $A(c)=c$ and $1+A'(c)\neq 0$ into a depth-two self-seeding binary germ. This yields explicit holomorphic examples recovering $e^x$ and explicit real-analytic examples recovering $\sin x$. A fixed-seed obstruction then shows why these positive constructions still miss calculator completeness: if a seeded constant $c$ also satisfies $f(c,c)=c$, then every unary term fixes $c$, so no second constant is ever generated.
+
+The second part of the paper passes from a germ at one point to a germ along a finite orbit. For disconnected finite-orbit germs, pure constant generation turns out to be combinatorial. Section~\ref{sec:finite-orbits} proves a lifting proposition showing that every finite shadow can be realized by a locally constant analytic germ along a finite set, and it classifies the two-state shadow with diagonal swap. Up to relabeling, the only reset-capable shadows are the Boolean NOR and NAND tables. Section~\ref{sec:two-cycle} then proves the main new interpolation theorems of the paper. For an analytic involution $D$ exchanging two points $c$ and $d$, we describe the affine space of all binary germs satisfying
+\[
+f(u,u)=D(u),\qquad f\bigl(u,D(u)\bigr)\equiv c.
+\]
+We show first that one may prescribe one nonconstant slice $f(u,c)$. We show next that one may also prescribe a second slice $f(c,v)$, and that the only obstruction is a single first-jet compatibility condition. The argument extends to all four orbit-adjacent slices. Finally we apply the two-slice theorem to a complex $2$-cycle of $e^z$ and obtain a holomorphic binary germ whose unary term clone contains two distinct constants, the exponential germ, and a logarithm branch.
+
+The paper closes with an appendix on the branch-correct EML identities. Odrzywo{\l}ek's paper uses the principal logarithm in prose but later notes a sign mismatch on the negative real axis \cite{Odrzywolek2026}. Appendix~\ref{app:eml} isolates the theorem-level part of that issue. If one builds EML from the lower-edge logarithm, with argument in $[-\pi,\pi)$, then the reconstructed logarithm is the usual principal logarithm and $\log_E(-1)=i\pi$ has the correct sign. We also explain why the larger public verification of the full calculator-basis chain should still be described as mixed symbolic--numerical.
+
+Our results are narrower than the full differential-algebraic theory of elementary functions in the sense of Ritt and Risch \cite{Ritt1948,Risch1969}. That is deliberate. Once the target is Odrzywo{\l}ek's calculator basis, one can prove meaningful impossibility theorems and constructive orbit-lift theorems without solving the full Liouville--Ritt problem. For closed-form and exp-log background around that larger theory, see also Chow \cite{Chow1999}.
+
+\section{Preliminaries}\label{sec:preliminaries}
+
+We fix some notation for germs at a point and along a finite set.
+
+\begin{definition}
+Let $\K\in\{\R,\C\}$ and let $p\in\K^n$. We write $\Oc_{n,p}(\K)$ for the ring of germs at $p$ of real-analytic maps $\K^n\to\K$ if $\K=\R$, respectively holomorphic maps $\K^n\to\K$ if $\K=\C$.
+
+Fix $c\in\K$ and write $p_n=(c,\dots,c)\in\K^n$. Let $f\in \Oc_{2,(c,c)}(\K)$ be a binary germ. The set $T_n(f;c)\subseteq \Oc_{n,p_n}(\K)$ of $n$-ary term germs generated by $f$ at $c$ is defined recursively as follows. Every coordinate projection $\pi_j(z_1,\dots,z_n)=z_j$ belongs to $T_n(f;c)$. If $u,v\in T_n(f;c)$ and $u(p_n)=v(p_n)=c$, then the composite germ $f(u,v)$ belongs to $T_n(f;c)$.
+
+For unary terms we define the depth recursively by
+\[
+\operatorname{depth}(x)=0,\qquad \operatorname{depth}(f(u,v))=1+\max\{\operatorname{depth}(u),\operatorname{depth}(v)\}.
+\]
+\end{definition}
+
+In all local arguments the condition $u(p_n)=v(p_n)=c$ will be proved inductively, so the required compositions are defined after shrinking representatives if necessary.
+
+\begin{definition}
+Let $O=\{a_1,\dots,a_m\}\subset \K$ be finite. A unary germ along $O$ is a tuple $(g_{a_1},\dots,g_{a_m})$ with $g_{a_j}\in \Oc_{1,a_j}(\K)$. Thus
+\[
+\Oc_O(\K):=\prod_{a\in O}\Oc_{1,a}(\K).
+\]
+Likewise,
+\[
+\Oc_{O^2}(\K):=\prod_{(a,b)\in O^2}\Oc_{2,(a,b)}(\K)
+\]
+is the ring of binary germs along $O^2$.
+\end{definition}
+
+If $\mc_a\subset \Oc_{1,a}(\K)$ denotes the maximal ideal of germs vanishing at $a$, then the Jacobson radical of $\Oc_O(\K)$ is
+\[
+J_O:=\prod_{a\in O}\mc_a.
+\]
+Evaluation at the orbit points identifies the quotient $\Oc_O(\K)/J_O$ with the algebra $\K^O$ of set-theoretic functions $O\to\K$. We call this quotient the finite shadow. Similarly,
+\[
+\Oc_{O^2}(\K)/J_{O^2}\cong \K^{O^2}
+\]
+records the values of a binary germ at the orbit points. For each $a\in O$ there is an idempotent $e_a\in \Oc_O(\K)$ whose representative is the locally constant function equal to $1$ near $a$ and $0$ near every other point of $O$.
+
+\begin{definition}
+For each $m\geq 1$, let $\LE_m$ denote the class of partial real functions in $m$ variables obtained from real constants and the coordinate projections by finitely many applications of the field operations, the real exponential, the real logarithm on positive arguments, and composition, with domains tracked by the usual pullback rules. These are the standard logarithmico-exponential functions in the sense of Hardy-field asymptotics and computer algebra \cite{Hardy1910,Rosenlicht1983,Aschenbrenner2017,Shackell1990,Strzebonski2019}.
+\end{definition}
+
+A Hardy field is a field of germs at $+\infty$ of real-valued functions on tails $(a,\infty)$ that is closed under differentiation. The germs at $+\infty$ of logarithmico-exponential functions form a Hardy field, and every element of a Hardy field is eventually monotone \cite{Rosenlicht1983,Aschenbrenner2017}.
+
+We write $\calc$ for Odrzywo{\l}ek's concrete calculator basis from Table~1 of \cite{Odrzywolek2026}. It contains the constants $\pi,e,i,-1,1,2$, the usual arithmetic operations, radicals and powers, exponentials and logarithms, and the trigonometric and hyperbolic families together with their inverses. Every completeness statement below refers to this finite basis rather than to the full differential-algebraic notion of elementary extension in the sense of Ritt and Risch \cite{Ritt1948,Risch1969}.
+
+\section{One-point obstructions}\label{sec:obstructions}
+
+\begin{theorem}[Diagonal ideal obstruction]\label{thm:diag-ideal}
+Let $\K\in\{\C,\R\}$, let $c\in\K$, and let $f\in \Oc_{2,(c,c)}(\K)$ be a holomorphic germ if $\K=\C$ or a real-analytic germ if $\K=\R$. Assume that
+\[
+f(x,x)\equiv c
+\]
+as a germ along the diagonal. Then for every $n\geq 1$ and every $t\in T_n(f;c)$ there exist germs $h_1,\dots,h_n\in \Oc_{n,p_n}(\K)$ such that
+\begin{equation}\label{eq:diag-ideal-form}
+t(z_1,\dots,z_n)=c+\sum_{j=1}^n (z_j-c)h_j(z_1,\dots,z_n).
+\end{equation}
+Consequently every term germ fixes the diagonal point $p_n=(c,\dots,c)$. In particular every unary term germ fixes $c$, and $c$ is the only constant term germ obtainable from arbitrary input. Any target basis that requires either a second constant or a unary operation not fixing $c$ is therefore unreachable.
+\end{theorem}
+
+\begin{proof}
+The proof begins with a local factorization. We claim that there exists an analytic germ $g\in \Oc_{2,(c,c)}(\K)$ such that
+\begin{equation}\label{eq:diag-factorization}
+f(x,y)=c+(x-y)g(x,y).
+\end{equation}
+Since the statement is local, translate the base point to the origin by setting
+\[
+F(X,Y):=f(c+X,c+Y)-c.
+\]
+Then $F\in \Oc_{2,(0,0)}(\K)$ and the hypothesis becomes $F(T,T)\equiv 0$. Define a new germ
+\[
+H(U,V):=F(U+V,V).
+\]
+This is analytic at $(0,0)$ and satisfies $H(0,V)=F(V,V)\equiv 0$. Write the convergent power series of $H$ as
+\[
+H(U,V)=\sum_{m,n\geq 0} a_{mn}U^mV^n.
+\]
+The identity $H(0,V)\equiv 0$ means that every coefficient $a_{0n}$ vanishes. Hence the series is divisible by $U$:
+\[
+H(U,V)=U\sum_{m,n\geq 0} a_{m+1,n}U^mV^n=:UG(U,V)
+\]
+for an analytic germ $G$. Undoing the coordinate change gives
+\[
+F(X,Y)=H(X-Y,Y)=(X-Y)G(X-Y,Y).
+\]
+Returning to the original coordinates yields \eqref{eq:diag-factorization}.
+
+We now prove \eqref{eq:diag-ideal-form} by induction on the complexity of the term $t$. If $t$ is a projection, say $t(z_1,\dots,z_n)=z_k$, then
+\[
+z_k=c+(z_k-c),
+\]
+so \eqref{eq:diag-ideal-form} holds with $h_k\equiv 1$ and $h_j\equiv 0$ for $j\neq k$.
+
+Assume next that
+\[
+u(z)=c+\sum_{j=1}^n (z_j-c)a_j(z),\qquad v(z)=c+\sum_{j=1}^n (z_j-c)b_j(z)
+\]
+with $a_j,b_j\in \Oc_{n,p_n}(\K)$, and let $t=f(u,v)$. By the induction hypothesis $u(p_n)=v(p_n)=c$, so the composite germ is defined. Using \eqref{eq:diag-factorization},
+\begin{align*}
+t(z)
+&=f\bigl(u(z),v(z)\bigr) \\
+&=c+\bigl(u(z)-v(z)\bigr)g\bigl(u(z),v(z)\bigr) \\
+&=c+\sum_{j=1}^n (z_j-c)\bigl(a_j(z)-b_j(z)\bigr)g\bigl(u(z),v(z)\bigr).
+\end{align*}
+This is again of the form \eqref{eq:diag-ideal-form}. The induction is complete.
+
+Substituting $z_1=\cdots=z_n=c$ into \eqref{eq:diag-ideal-form} gives $t(p_n)=c$ for every term germ. If $t$ is constant, the right-hand side of \eqref{eq:diag-ideal-form} forces $t\equiv c$. The final sentence follows immediately.
+\end{proof}
+
+\begin{remark}
+The theorem is entirely local. No convexity hypothesis is needed, and global branch-cut geometry does not enter because the factorization takes place in the local analytic ring.
+
+The analytic hypothesis is essential. The theorem does not extend to meromorphic operators singular at the seed point. For example,
+\[
+m(z,w)=\frac{z-w}{z+w}
+\]
+satisfies $m(x,x)=0$ for $x\neq 0$, while
+\[
+m\bigl(m(x,x),x\bigr)=m(0,x)=-1.
+\]
+The singularity at $(0,0)$ creates an escape route unavailable in the analytic setting.
+
+One should also not overread the theorem. It does not say that a particular unary target such as $e^x$ or a chosen logarithm branch is impossible merely because it is transcendental. The actual obstruction is clone-theoretic: only one constant is available, and every unary term fixes the same point $c$.
+\end{remark}
+
+\begin{theorem}[Hardy-field obstruction]\label{thm:hardy}
+Let $f\in \LE_2$, and let $t$ be a unary term obtained from $f$ and the identity projection by finite composition. Assume that $t$ is defined on some tail $(a,\infty)$. Then there exists $b\geq a$ such that $t\in \LE_1$ on $(b,\infty)$. Consequently the germ of $t$ at $+\infty$ belongs to a Hardy field and is therefore eventually monotone.
+
+In particular no nonconstant periodic function, and more generally no unary function that fails to be eventually monotone, can lie in the unary term clone generated by $f$. Hence no purely real binary logarithmico-exponential primitive can generate $\calc$.
+\end{theorem}
+
+\begin{proof}
+We first record the closure of logarithmico-exponential functions under substitution. By definition, $\LE_m$ is generated from constants and coordinate projections by the field operations, the real exponential, the real logarithm on positive arguments, and composition. Therefore if $g,h\in \LE_1$ on suitable tails, then $g\pm h$, $gh$, and $g/h$ are logarithmico-exponential wherever they are defined. Likewise $\exp(g)$ is logarithmico-exponential wherever $g$ is defined, and $\log(g)$ is logarithmico-exponential on the subdomain where $g>0$. Finally, if $F\in \LE_2$ and $u,v\in \LE_1$, then
+\[
+x\longmapsto F\bigl(u(x),v(x)\bigr)
+\]
+is logarithmico-exponential on the pullback domain
+\[
+\{x:(u(x),v(x))\in \operatorname{dom}(F)\}.
+\]
+This proves the required substitution closure, with domains tracked by pullback.
+
+We now argue by induction on the depth of the unary term $t$. The identity projection belongs to $\LE_1$. Suppose that
+\[
+t(x)=f\bigl(u(x),v(x)\bigr)
+\]
+and that $u$ and $v$ belong to $\LE_1$ on some tails. By the previous paragraph, $t$ is logarithmico-exponential on the pullback domain where it is defined. Since by hypothesis the composite term $t$ is actually defined on some tail $(a,\infty)$, we may shrink to a smaller tail $(b,\infty)$ contained in that pullback domain. The induction proves that every unary term defined near $+\infty$ lies in $\LE_1$ on some tail.
+
+The germs at $+\infty$ of logarithmico-exponential functions form a Hardy field \cite{Rosenlicht1983,Aschenbrenner2017}. Let $[t]$ denote the germ of our unary term. Since Hardy fields are closed under differentiation, $[t']$ also belongs to the same Hardy field. If $[t']=0$, then $t$ is eventually constant. If $[t']\neq 0$, then every representative of $[t']$ has eventually constant sign, because a nonzero element of a Hardy field cannot change sign infinitely often on a tail. Hence $t$ is eventually strictly monotone.
+
+Therefore every unary term in the clone is eventually monotone. Any function that fails eventual monotonicity is excluded. In particular no nonconstant periodic function can occur, because periodicity forces oscillation on every tail. Since $\calc$ contains $\sin$ and $\cos$, no purely real $f\in \LE_2$ can generate the full basis.
+\end{proof}
+
+\begin{remark}
+Theorem~\ref{thm:hardy} excludes more than periodic functions. It rules out every unary target that fails eventual monotonicity, including oscillations of growing amplitude. At the same time its hypothesis is genuinely narrower than real-analyticity. The theorem says nothing about arbitrary real-analytic primitives outside the logarithmico-exponential class. Corollary~\ref{cor:sin-example} below shows that this gap is real.
+\end{remark}
+
+\section{Self-seeding at one point}\label{sec:one-point-self-seeding}
+
+The diagonal ideal obstruction eliminates constant diagonals, but it does not settle multi-step self-seeding with a moving diagonal. We begin with the general geometric shape of a minimal constant term.
+
+\begin{lemma}[Off-diagonal fiber criterion]\label{lem:fiber-criterion}
+Let $\K\in\{\R,\C\}$, let $f\in \Oc_{2,(c,c)}(\K)$, and let $t\in T_1(f;c)$ be a constant unary term of minimal depth $m\geq 2$. Write
+\[
+t(x)=f\bigl(u(x),v(x)\bigr)
+\]
+with $u$ and $v$ of smaller depth. Then $u$ and $v$ are nonconstant, $u-v$ is not identically zero, and the analytic curve
+\[
+x\longmapsto \bigl(u(x),v(x)\bigr)
+\]
+lies in the fiber $f^{-1}(k)$, where $t(x)\equiv k$, and is not contained in the diagonal. If, in addition, the image curve meets a regular point of $f^{-1}(k)$, then near that point one of $u$ and $v$ is a local analytic function of the other.
+\end{lemma}
+
+\begin{proof}
+Since $t$ has minimal depth among constant unary terms, neither $u$ nor $v$ can be constant. If, for example, $u\equiv c$, then $u$ itself would already be a constant unary term of smaller depth. The same argument excludes constant $v$.
+
+Suppose next that $u-v$ vanishes identically. Then
+\[
+t(x)=f\bigl(u(x),u(x)\bigr).
+\]
+Define the diagonal unary germ
+\[
+D(z):=f(z,z).
+\]
+Then $D\bigl(u(x)\bigr)\equiv k$. We claim that this forces $D$ to be the constant germ $k$. In the holomorphic case, if $D$ were nonconstant then the open mapping theorem would imply that $D$ maps a neighborhood of $c$ onto an open set. Since $u$ is a nonconstant holomorphic germ, its image contains a neighborhood of $u(c)=c$, so $D$ would be constant on an open set and hence everywhere by the identity theorem. In the real-analytic case, if $u$ is nonconstant then $u'$ is not identically zero. Hence there exists a point $x_0$ arbitrarily close to $c$ with $u'(x_0)\neq 0$. By the inverse function theorem, $u$ maps a neighborhood of $x_0$ onto an open interval, and $D$ is constant on that interval. Therefore $D$ is constant as a real-analytic germ. In either case $D(x)=f(x,x)$ is already a constant unary term of depth $1$, contradicting the minimality of $m\geq 2$. Thus $u-v$ is not identically zero.
+
+The identity $t(x)\equiv k$ is exactly the statement that
+\[
+f\bigl(u(x),v(x)\bigr)=k.
+\]
+Therefore the image curve lies in the level set $f^{-1}(k)$. The previous paragraph shows that the curve is not contained in the diagonal.
+
+Finally, if the curve meets a regular point $(a,b)$ of the fiber $f^{-1}(k)$, then one of the partial derivatives of $f$ is nonzero at $(a,b)$. The implicit function theorem therefore shows that near $(a,b)$ the level set $f^{-1}(k)$ is a one-dimensional analytic graph. Hence near that point one coordinate is an analytic function of the other.
+\end{proof}
+
+The next proposition is the exact depth-two version of the lemma.
+
+\begin{proposition}[Depth-two classification]\label{prop:depth-two-classification}
+Let $\K\in\{\R,\C\}$ and let $f\in \Oc_{2,(c,c)}(\K)$ satisfy $f(c,c)=c$. Define
+\[
+D(x):=f(x,x).
+\]
+Assume that $D$ is nonconstant. Then the unary term clone $T_1(f;c)$ contains a constant term of depth $2$ if and only if one of the two identities
+\begin{equation}\label{eq:left-right-traps}
+f\bigl(D(x),x\bigr)\equiv c,\qquad f\bigl(x,D(x)\bigr)\equiv c
+\end{equation}
+holds as a germ at $c$. Moreover,
+\[
+f\bigl(D(x),x\bigr)\equiv c
+\]
+holds if and only if there exists $h\in \Oc_{2,(c,c)}(\K)$ such that
+\begin{equation}\label{eq:left-divisibility}
+f(u,v)-c=\bigl(u-D(v)\bigr)h(u,v),
+\end{equation}
+and
+\[
+f\bigl(x,D(x)\bigr)\equiv c
+\]
+holds if and only if there exists $k\in \Oc_{2,(c,c)}(\K)$ such that
+\begin{equation}\label{eq:right-divisibility}
+f(u,v)-c=\bigl(v-D(u)\bigr)k(u,v).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Every depth-two unary term built from $f$ and the identity projection is one of the three germs
+\[
+D\bigl(D(x)\bigr),\qquad f\bigl(D(x),x\bigr),\qquad f\bigl(x,D(x)\bigr).
+\]
+We first show that $D(D(x))$ cannot be constant if $D$ is nonconstant. In the holomorphic case, if $D$ were nonconstant on a neighborhood of $c$, then $D$ would map that neighborhood onto an open set by the open mapping theorem. If $D(D(x))$ were constant, then $D$ would be constant on the open set $D(U)$, and hence constant on $U$ by the identity theorem, a contradiction. In the real-analytic case, if $D$ is nonconstant then $D'$ is not identically zero. Hence there exists $x_0$ arbitrarily close to $c$ with $D'(x_0)\neq 0$. Shrinking representatives if necessary, we may take $x_0$ inside the neighborhood on which $D(D(x))$ is constant. The inverse function theorem then implies that $D$ maps a neighborhood of $x_0$ onto an open interval, and $D$ is constant on that interval because $D(D(x))$ is constant there. Thus $D$ is constant as a real-analytic germ, again a contradiction. Therefore a depth-two constant term can only arise from one of the two identities in \eqref{eq:left-right-traps}.
+
+Assume first that $f(D(x),x)\equiv c$. Set
+\[
+F(u,v):=f(u,v)-c.
+\]
+Then $F(D(v),v)\equiv 0$. Consider the analytic change of coordinates
+\[
+\Psi(u,v):=(u-D(v),v),\qquad \Phi(U,V):=(U+D(V),V).
+\]
+These maps are analytic inverses of one another near $(c,c)$ because $D(c)=c$. In particular $\Psi$ is a local analytic automorphism of the germ ring. Define
+\[
+G(U,V):=F\bigl(U+D(V),V\bigr).
+\]
+Then $G$ is analytic and
+\[
+G(0,V)=F(D(V),V)\equiv 0.
+\]
+Exactly as in the proof of Theorem~\ref{thm:diag-ideal}, the convergent power series of $G$ has no $U^0$ term, so it is divisible by $U$:
+\[
+G(U,V)=UH(U,V)
+\]
+for some analytic germ $H$. Returning to the original coordinates gives
+\[
+F(u,v)=\bigl(u-D(v)\bigr)H\bigl(u-D(v),v\bigr).
+\]
+This is \eqref{eq:left-divisibility}. Conversely, if \eqref{eq:left-divisibility} holds, then substituting $u=D(x)$ and $v=x$ gives $f(D(x),x)-c\equiv 0$.
+
+The proof of the right divisibility criterion is the same, using the coordinate change
+\[
+\widetilde\Psi(u,v):=(u,v-D(u)),\qquad \widetilde\Phi(U,V):=(U,V+D(U)).
+\]
+This proves \eqref{eq:right-divisibility}.
+\end{proof}
+
+\begin{corollary}[Jet constraint and affine linearization]\label{cor:jet-constraint}
+In the setting of Proposition~\ref{prop:depth-two-classification}, assume that the left trap
+\[
+f\bigl(D(x),x\bigr)\equiv c
+\]
+holds. Write
+\[
+a:=\partial_1 f(c,c),\qquad b:=\partial_2 f(c,c),\qquad \mu:=D'(c).
+\]
+Then
+\begin{equation}\label{eq:jet-left-trap}
+a(a+b)+b=0.
+\end{equation}
+Equivalently,
+\begin{equation}\label{eq:jet-solved}
+a=\frac{\mu}{1-\mu},\qquad b=-\frac{\mu^2}{1-\mu}.
+\end{equation}
+In particular $\mu\neq 1$. The same argument for the right trap yields
+\[
+a+b(a+b)=0.
+\]
+\end{corollary}
+
+\begin{proof}
+Since $D(x)=f(x,x)$, differentiation gives
+\[
+\mu=D'(c)=\partial_1 f(c,c)+\partial_2 f(c,c)=a+b.
+\]
+Differentiate the identity $f(D(x),x)\equiv c$ at $x=c$. The chain rule yields
+\[
+\partial_1 f(c,c)D'(c)+\partial_2 f(c,c)=0,
+\]
+that is,
+\[
+a\mu+b=0.
+\]
+Substituting $\mu=a+b$ gives \eqref{eq:jet-left-trap}.
+
+To solve for $a$ and $b$, use the linear system
+\[
+a+b=\mu,\qquad a\mu+b=0.
+\]
+Subtracting the second equation from the first gives
+\[
+a-a\mu=\mu.
+\]
+Thus $a(1-\mu)=\mu$. If $\mu=1$, this equation becomes $0=1$, which is impossible. Therefore $\mu\neq 1$ and
+\[
+a=\frac{\mu}{1-\mu}.
+\]
+Substituting into $b=-a\mu$ gives the stated formula for $b$.
+
+For the right trap $f(x,D(x))\equiv c$, the same computation yields
+\[
+a+b\mu=0,
+\]
+with $\mu=a+b$, hence $a+b(a+b)=0$.
+\end{proof}
+
+\begin{example}[Affine traps]\label{ex:affine-traps}
+Let
+\[
+B_{a,b}(x,y)=ax+by
+\]
+be an affine binary map. Then
+\[
+D(x)=B_{a,b}(x,x)=(a+b)x.
+\]
+The two depth-two trap coefficients are
+\[
+B_{a,b}\bigl(D(x),x\bigr)=\bigl(a(a+b)+b\bigr)x,
+\]
+\[
+B_{a,b}\bigl(x,D(x)\bigr)=\bigl(a+b(a+b)\bigr)x.
+\]
+Thus a left trap occurs exactly when $a(a+b)+b=0$, and a right trap occurs exactly when $a+b(a+b)=0$. The degenerate case $a+b=0$ is the constant-diagonal situation already covered by Theorem~\ref{thm:diag-ideal}.
+
+If $\mu=a+b\neq 0$ and the left-trap condition holds, then Corollary~\ref{cor:jet-constraint} gives
+\[
+a=\frac{\mu}{1-\mu},\qquad b=-\frac{\mu^2}{1-\mu}.
+\]
+Odrzywo{\l}ek's example $x-y/2$ corresponds to $\mu=1/2$ and is the simplest nondegenerate left trap \cite{Odrzywolek2026}.
+\end{example}
+
+The next theorem shows that the off-diagonal geometry allowed by Proposition~\ref{prop:depth-two-classification} is flexible enough to carry arbitrary fixed-point unary germs.
+
+\begin{theorem}[Fixed-point lift]\label{thm:fixed-point-lift}
+Let $\K\in\{\C,\R\}$, let $A\in \Oc_{1,c}(\K)$ be nonconstant, and assume that
+\[
+A(c)=c,\qquad 1+A'(c)\neq 0.
+\]
+Define
+\[
+G(z):=z+A(z).
+\]
+Then $G'(c)=1+A'(c)\neq 0$, so $G$ admits a local analytic inverse $H$ near $2c$ with $H(2c)=c$. Set
+\begin{equation}\label{eq:fixed-point-lift-def}
+D(x):=H\bigl(A(x)+c\bigr),\qquad f(u,v):=A(u)+D(v)-A(v).
+\end{equation}
+Then $D$ is nonconstant,
+\[
+f(x,x)=D(x),\qquad f\bigl(D(x),x\bigr)\equiv c,\qquad f(x,c)=A(x).
+\]
+Consequently the depth-two unary term
+\[
+t(x):=f\bigl(f(x,x),x\bigr)
+\]
+is identically equal to $c$, and
+\[
+A(x)=f\bigl(x,t(x)\bigr).
+\]
+\end{theorem}
+
+\begin{proof}
+Since $G'(c)=1+A'(c)\neq 0$, the analytic inverse function theorem yields a local inverse $H$ of $G$ near $2c$ with $H(2c)=c$. By definition,
+\[
+G\bigl(D(x)\bigr)=A(x)+c.
+\]
+Expanding $G$ gives
+\begin{equation}\label{eq:key-fixed-point-identity}
+D(x)+A\bigl(D(x)\bigr)=A(x)+c.
+\end{equation}
+We first show that $D$ is nonconstant. The germ $A(x)+c$ is nonconstant because $A$ is. The inverse germ $H$ is also nonconstant because its derivative at $2c$ is $1/G'(c)\neq 0$. Therefore the composition $D(x)=H(A(x)+c)$ is nonconstant.
+
+Next,
+\[
+f(x,x)=A(x)+D(x)-A(x)=D(x).
+\]
+Using \eqref{eq:key-fixed-point-identity},
+\[
+f\bigl(D(x),x\bigr)=A\bigl(D(x)\bigr)+D(x)-A(x)=c.
+\]
+Finally,
+\[
+D(c)=H\bigl(A(c)+c\bigr)=H(2c)=c,
+\]
+so
+\[
+f(x,c)=A(x)+D(c)-A(c)=A(x).
+\]
+The last two displayed identities imply
+\[
+t(x)=f\bigl(f(x,x),x\bigr)=f\bigl(D(x),x\bigr)=c,
+\]
+and therefore
+\[
+f\bigl(x,t(x)\bigr)=f(x,c)=A(x).
+\]
+\end{proof}
+
+\begin{corollary}[A holomorphic self-seeding germ recovering $e^x$]\label{cor:exp-fixed-point}
+There exists a holomorphic self-seeding binary germ with nonconstant diagonal whose unary term clone contains the exponential germ.
+\end{corollary}
+
+\begin{proof}
+Take $A(z)=e^z$. Any fixed point $c$ of the exponential satisfies $e^c=c$, so $1+A'(c)=1+c$. Choosing any fixed point with $c\neq -1$ gives $1+A'(c)\neq 0$. For example,
+\[
+c=-W_0(-1)\approx 0.3181315052047641353-1.3372357014306894089\,i
+\]
+is a fixed point of $e^z$. Theorem~\ref{thm:fixed-point-lift} applies and produces a holomorphic binary germ $f$ with a constant unary term and with $e^x=f(x,t(x))$ in its unary clone.
+\end{proof}
+
+\begin{corollary}[A real-analytic self-seeding germ recovering $\sin x$]\label{cor:sin-example}
+There exists a real-analytic self-seeding binary germ with nonconstant diagonal whose unary term clone contains $\sin x$. In particular real-analyticity alone does not force eventual monotonicity of unary term germs.
+\end{corollary}
+
+\begin{proof}
+Take $A(x)=\sin x$ and $c=0$. Then $A(c)=0$ and
+\[
+1+A'(0)=1+\cos 0=2\neq 0.
+\]
+Theorem~\ref{thm:fixed-point-lift} therefore yields a real-analytic binary germ $f$ satisfying
+\[
+f\bigl(f(x,x),x\bigr)\equiv 0,\qquad f(x,0)=\sin x.
+\]
+Thus $0$ is a constant unary term and $\sin x$ lies in the unary term clone.
+\end{proof}
+
+\begin{proposition}[Fixed-seed obstruction]\label{prop:fixed-seed}
+Let $X$ be a set and let $f\colon X^2\to X$ be any binary operation. If $c\in X$ satisfies
+\[
+f(c,c)=c,
+\]
+then every unary term in the clone generated by $f$ fixes $c$. Consequently, if the unary term clone contains a constant map, that constant map must be the constant $c$.
+\end{proposition}
+
+\begin{proof}
+We argue by induction on unary term trees built from the variable $x$ and the binary operation $f$. The projection term $x$ satisfies $x(c)=c$. Suppose that $u$ and $v$ are unary terms with $u(c)=c$ and $v(c)=c$. Then
+\[
+f(u,v)(c)=f\bigl(u(c),v(c)\bigr)=f(c,c)=c.
+\]
+Hence every unary term $t$ satisfies $t(c)=c$.
+
+If $t$ is constant, say $t(x)\equiv d$, then evaluating at $c$ gives
+\[
+d=t(c)=c.
+\]
+Therefore the only constant unary term is the constant $c$.
+\end{proof}
+
+\section{Finite-orbit germs and finite shadows}\label{sec:finite-orbits}
+
+The fixed-seed obstruction is a one-point statement. Once one moves to a finite orbit represented by a disjoint union of neighborhoods, pure constant generation changes character.
+
+\begin{proposition}[Disconnected finite-orbit triviality]\label{prop:finite-orbit-triviality}
+Let $\K\in\{\R,\C\}$, let $O\subset \K$ be finite, and let $\bar f\colon O^2\to O$ be any binary operation. Then there exist pairwise disjoint neighborhoods $(U_a)_{a\in O}$ and an analytic binary germ $f$ along $O^2$, real-analytic if $\K=\R$ and holomorphic if $\K=\C$, such that on each component $U_a\times U_b$ the representative of $f$ is the constant function with value $\bar f(a,b)$.
+
+For every unary term $\tau$ over the language $\{x,f\}$, let $\tau^{\bar f}\colon O\to O$ be the corresponding finite term map and let $\tau^f$ be its analytic realization on $U:=\bigsqcup_{a\in O} U_a$. Then for every $a\in O$ one has
+\[
+\tau^f(U_a)\subseteq U_{\tau^{\bar f}(a)}.
+\]
+If $\tau$ has positive depth, then $\tau^f$ is constant on $U_a$ with value $\tau^{\bar f}(a)$. In particular, if the finite shadow clone of $\bar f$ contains a constant unary term of positive depth, then the analytic unary term clone of $f$ contains a genuine constant unary germ.
+\end{proposition}
+
+\begin{proof}
+Choose pairwise disjoint neighborhoods $U_a$ of the points $a\in O$. Define a representative of $f$ on $U:=\bigsqcup_{a\in O}U_a$ by
+\[
+f(u,v):=\bar f(a,b)\qquad\text{for }(u,v)\in U_a\times U_b.
+\]
+Because each component $U_a\times U_b$ is open and the representative is constant there, the germ is holomorphic or real-analytic according to the ground field.
+
+We prove the stated term property by induction on the structure of $\tau$. If $\tau=x$, then $\tau^f(U_a)=U_a$, while $\tau^{\bar f}(a)=a$, so the inclusion holds.
+
+Now let $\tau=f(\sigma,\rho)$. By the induction hypothesis,
+\[
+\sigma^f(U_a)\subseteq U_{\sigma^{\bar f}(a)},\qquad \rho^f(U_a)\subseteq U_{\rho^{\bar f}(a)}.
+\]
+Therefore, for every $z\in U_a$,
+\[
+\tau^f(z)=f\bigl(\sigma^f(z),\rho^f(z)\bigr)=\bar f\bigl(\sigma^{\bar f}(a),\rho^{\bar f}(a)\bigr)=\tau^{\bar f}(a).
+\]
+This shows both that $\tau^f(U_a)\subseteq U_{\tau^{\bar f}(a)}$ and that $\tau^f$ is constant on $U_a$ whenever $\tau$ has positive depth.
+
+If $\tau^{\bar f}$ is the constant map $a\mapsto a_0$, then $\tau^f$ is constant with value $a_0$ on every component $U_a$, hence constant on all of $U$.
+\end{proof}
+
+The first nontrivial finite shadow is a two-state orbit with diagonal swap.
+
+\begin{proposition}[Two-state shadow classification]\label{prop:two-state-shadow}
+Let $O=\{c,d\}$ with $c\neq d$, and let $\bar f\colon O^2\to O$ satisfy
+\[
+\bar f(c,c)=d,\qquad \bar f(d,d)=c.
+\]
+Then the following are equivalent.
+
+\smallskip
+\noindent (1) The unary term clone of $\bar f$ contains a constant map.
+
+\smallskip
+\noindent (2) The off-diagonal values agree:
+\[
+\bar f(c,d)=\bar f(d,c).
+\]
+
+\smallskip
+\noindent (3) After identifying $c=0$ and $d=1$, the operation $\bar f$ is either NOR or NAND.
+
+\smallskip
+More explicitly, writing
+\[
+p:=\bar f(c,d),\qquad q:=\bar f(d,c),
+\]
+there are four possibilities.
+
+If $p=q=c$, then $\bar f$ is NOR and the depth-two term
+\[
+\tau(x):=\bar f\bigl(x,\bar f(x,x)\bigr)
+\]
+is the constant map $c$.
+
+If $p=q=d$, then $\bar f$ is NAND and the same term is the constant map $d$.
+
+If $p\neq q$, then after identifying $c=0$ and $d=1$, the operation is either $1-x$ or $1-y$. In that case the unary term clone is exactly $\{x,\iota(x)\}$, where $\iota(c)=d$ and $\iota(d)=c$, and no constant map occurs.
+\end{proposition}
+
+\begin{proof}
+Because the statement is invariant under relabeling the two points, we identify $c=0$ and $d=1$. Then the hypotheses become
+\[
+\bar f(0,0)=1,\qquad \bar f(1,1)=0.
+\]
+The operation is therefore determined by the two values
+\[
+p:=\bar f(0,1),\qquad q:=\bar f(1,0).
+\]
+There are four cases.
+
+Assume first that $p=q=s\in\{0,1\}$. Since
+\[
+\bar f(x,x)=1-x,
+\]
+we obtain
+\[
+\bar f\bigl(x,\bar f(x,x)\bigr)=\bar f(x,1-x)=s
+\]
+for both $x=0$ and $x=1$. Thus the depth-two term $\tau(x)=\bar f(x,\bar f(x,x))$ is constant. If $s=0$, the full table is
+\[
+\bar f(0,0)=1,\quad \bar f(0,1)=0,\quad \bar f(1,0)=0,\quad \bar f(1,1)=0,
+\]
+which is NOR. If $s=1$, the full table is
+\[
+\bar f(0,0)=1,\quad \bar f(0,1)=1,\quad \bar f(1,0)=1,\quad \bar f(1,1)=0,
+\]
+which is NAND.
+
+Now assume that $p\neq q$. If $(p,q)=(0,1)$, then inspection of the table shows that
+\[
+\bar f(x,y)=1-y
+\]
+for every $x,y\in\{0,1\}$. We claim that every unary term is either $x$ or $1-x$. This is proved by induction on term complexity. The projection term is $x$. If $u$ and $v$ are each equal to either $x$ or $1-x$, then
+\[
+\bar f(u,v)=1-v,
+\]
+which is again either $x$ or $1-x$. Thus the unary term clone is exactly $\{x,1-x\}$ and no constant occurs.
+
+If $(p,q)=(1,0)$, then similarly
+\[
+\bar f(x,y)=1-x
+\]
+for every $x,y$, and the same induction shows that every unary term is again either $x$ or $1-x$. No constant occurs.
+
+This proves the equivalence of the three conditions.
+\end{proof}
+
+\begin{remark}
+On a finite shadow, a constant unary term is exactly a reset map in the transformation monoid generated by the unary terms. Proposition~\ref{prop:two-state-shadow} says that for the smallest nontrivial orbit, the reset-capable shadows are precisely NOR and NAND. This is the synchronizing-automata viewpoint on the problem, and the natural complexity invariant is the minimum depth or size of a reset term; see Volkov's survey for the general reset-threshold literature \cite{Volkov2008}.
+\end{remark}
+
+\section{Two-cycle reset lifts and slice interpolation}\label{sec:two-cycle}
+
+We now turn to the first genuinely new orbit regime. Fix distinct points $c,d\in\K$, choose disjoint neighborhoods $U_c$ and $U_d$, and set
+\[
+U:=U_c\sqcup U_d.
+\]
+All germs in this section are understood along $U$ or $U\times U$. We assume that
+\[
+D\colon U\to U
+\]
+is holomorphic if $\K=\C$, respectively real-analytic if $\K=\R$, and that $D$ is an involution exchanging the two components:
+\begin{equation}\label{eq:D-hypotheses}
+D(U_c)=U_d,\qquad D(U_d)=U_c,\qquad D(c)=d,\qquad D(d)=c,\qquad D\circ D=\id.
+\end{equation}
+
+\begin{lemma}\label{lem:D-basic}
+Under \eqref{eq:D-hypotheses}, the following hold.
+
+\smallskip
+\noindent (1) $D'(c)D'(d)=1$. In particular $D'(c)$ and $D'(d)$ are nonzero.
+
+\smallskip
+\noindent (2) The germ $u-D(u)$ is a unit in $\Oc_U(\K)$, and the binary germ
+\begin{equation}\label{eq:LD-def}
+L_D(u,v):=c+\frac{v-D(u)}{u-D(u)}\bigl(D(u)-c\bigr)
+\end{equation}
+is analytic on $U\times U$.
+
+\smallskip
+\noindent (3) One has
+\begin{equation}\label{eq:LD-identities}
+L_D(u,u)=D(u),\qquad L_D\bigl(u,D(u)\bigr)=c,
+\end{equation}
+and, more specifically,
+\begin{equation}\label{eq:LD-slices}
+L_D(c,v)=c+d-v,\qquad L_D(d,v)=c.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Differentiate the identity $D(D(u))=u$ at $u=c$ to obtain
+\[
+D'(d)D'(c)=1.
+\]
+This proves (1).
+
+For (2), if $u\in U_c$ then $D(u)\in U_d$, and if $u\in U_d$ then $D(u)\in U_c$. Since the two neighborhoods are disjoint, one always has $u\neq D(u)$. Therefore the germ $u-D(u)$ never vanishes on $U$ and is a unit. Formula \eqref{eq:LD-def} is therefore analytic.
+
+For (3), substitute $v=u$ into \eqref{eq:LD-def}:
+\[
+L_D(u,u)=c+\frac{u-D(u)}{u-D(u)}\bigl(D(u)-c\bigr)=D(u).
+\]
+Substituting $v=D(u)$ gives
+\[
+L_D\bigl(u,D(u)\bigr)=c.
+\]
+If $u=c$, then $D(c)=d$ and \eqref{eq:LD-def} becomes
+\[
+L_D(c,v)=c+\frac{v-d}{c-d}(d-c)=c+d-v.
+\]
+If $u=d$, then $D(d)=c$ and the factor $D(d)-c$ vanishes, so $L_D(d,v)=c$.
+\end{proof}
+
+The next theorem describes all binary germs with diagonal $D$ and reset curve $v=D(u)$.
+
+\begin{theorem}[Moduli of two-cycle reset lifts]\label{thm:moduli-reset-lifts}
+Let $D$ satisfy \eqref{eq:D-hypotheses}. A binary germ $f\in \Oc_{U\times U}(\K)$ satisfies
+\begin{equation}\label{eq:reset-identities}
+f(u,u)=D(u),\qquad f\bigl(u,D(u)\bigr)\equiv c
+\end{equation}
+if and only if there exists a binary germ $R\in \Oc_{U\times U}(\K)$ such that
+\begin{equation}\label{eq:moduli-form}
+f(u,v)=L_D(u,v)+(v-u)\bigl(v-D(u)\bigr)R(u,v).
+\end{equation}
+Thus the set of reset lifts of $D$ is an affine space over the ideal generated by $(v-u)(v-D(u))$.
+\end{theorem}
+
+\begin{proof}
+If $f$ has the form \eqref{eq:moduli-form}, then substituting $v=u$ and $v=D(u)$ and using \eqref{eq:LD-identities} immediately yields \eqref{eq:reset-identities}. The content is the converse.
+
+Assume that $f$ satisfies \eqref{eq:reset-identities}, and set
+\[
+F(u,v):=f(u,v)-L_D(u,v).
+\]
+Then
+\[
+F(u,u)=0,\qquad F\bigl(u,D(u)\bigr)=0.
+\]
+We work componentwise on the four connected components of $U\times U$.
+
+On $U_c\times U_c$, the germ $v-D(u)$ is a unit because $D(u)\in U_d$. Since $F(u,u)=0$, we may factor $F$ by $v-u$ exactly as in the proof of Theorem~\ref{thm:diag-ideal}. Define
+\[
+H_{cc}(u,w):=F(u,u+w).
+\]
+Then $H_{cc}$ is analytic and $H_{cc}(u,0)=0$, so $H_{cc}(u,w)=wG_{cc}(u,w)$ for an analytic germ $G_{cc}$. Returning to $(u,v)$ gives
+\[
+F(u,v)=(v-u)G_{cc}(u,v-u).
+\]
+Because $v-D(u)$ is a unit on $U_c\times U_c$, there exists an analytic germ $R_{cc}$ on that component with
+\[
+F(u,v)=(v-u)\bigl(v-D(u)\bigr)R_{cc}(u,v).
+\]
+The same argument works on $U_d\times U_d$ and yields a germ $R_{dd}$.
+
+On $U_c\times U_d$, the germ $v-u$ is a unit because the two components are disjoint. Since $F(u,D(u))=0$, define
+\[
+K_{cd}(u,w):=F\bigl(u,D(u)+w\bigr).
+\]
+Then $K_{cd}$ is analytic and $K_{cd}(u,0)=0$, so $K_{cd}(u,w)=wG_{cd}(u,w)$ for an analytic germ $G_{cd}$. Undoing the coordinate change gives
+\[
+F(u,v)=\bigl(v-D(u)\bigr)G_{cd}\bigl(u,v-D(u)\bigr).
+\]
+Since $v-u$ is a unit on $U_c\times U_d$, there exists an analytic germ $R_{cd}$ with
+\[
+F(u,v)=(v-u)\bigl(v-D(u)\bigr)R_{cd}(u,v).
+\]
+The same argument on $U_d\times U_c$ yields a germ $R_{dc}$.
+
+The ring $\Oc_{U\times U}(\K)$ is the product of the four component rings, so the four germs $R_{cc},R_{cd},R_{dc},R_{dd}$ assemble uniquely into a binary germ $R$ on $U\times U$. Then \eqref{eq:moduli-form} holds.
+\end{proof}
+
+For later use we record a one-dimensional divisibility lemma on the disconnected orbit.
+
+\begin{lemma}\label{lem:orbit-divisibility}
+Let $M\in \Oc_U(\K)$. The following are equivalent.
+
+\smallskip
+\noindent (1) $M(c)=M(d)=0$.
+
+\smallskip
+\noindent (2) There exists $Q\in \Oc_U(\K)$ such that
+\begin{equation}\label{eq:div-cD}
+M(u)=(c-u)\bigl(c-D(u)\bigr)Q(u).
+\end{equation}
+
+\smallskip
+\noindent (3) There exists $T\in \Oc_U(\K)$ such that
+\begin{equation}\label{eq:div-dD}
+M(u)=(d-u)\bigl(d-D(u)\bigr)T(u).
+\end{equation}
+
+\smallskip
+\noindent (4) There exists $S\in \Oc_U(\K)$ such that
+\begin{equation}\label{eq:div-cd}
+M(u)=(u-c)(u-d)S(u).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The implication from any of (2), (3), or (4) to (1) is immediate by substitution. We prove that (1) implies each of the other three forms.
+
+Assume first that $M(c)=M(d)=0$. On the component $U_c$, the germ $c-D(u)$ is a unit because $D(u)\in U_d$. Since $M(c)=0$, the one-variable analytic factor theorem gives an analytic germ $Q_c$ on $U_c$ such that
+\[
+M(u)=(c-u)Q_c(u)\qquad (u\in U_c).
+\]
+Dividing by the unit $c-D(u)$, we obtain an analytic germ $\widetilde Q_c$ on $U_c$ with
+\[
+M(u)=(c-u)\bigl(c-D(u)\bigr)\widetilde Q_c(u).
+\]
+
+On the component $U_d$, the germ $c-u$ is a unit. To factor by $c-D(u)$, use the involution. Because $D\colon U_d\to U_c$ is an analytic bijection with analytic inverse $D$, the composite
+\[
+\widetilde M(\zeta):=M\bigl(D(\zeta)\bigr)
+\]
+is an analytic germ on $U_c$. It satisfies
+\[
+\widetilde M(c)=M\bigl(D(c)\bigr)=M(d)=0.
+\]
+Hence there exists an analytic germ $H$ on $U_c$ with
+\[
+\widetilde M(\zeta)=(c-\zeta)H(\zeta).
+\]
+Substituting $\zeta=D(u)$ and using $D(D(u))=u$ yields
+\[
+M(u)=\bigl(c-D(u)\bigr)H\bigl(D(u)\bigr)\qquad (u\in U_d).
+\]
+Dividing by the unit $c-u$ on $U_d$ gives an analytic germ $\widetilde Q_d$ such that
+\[
+M(u)=(c-u)\bigl(c-D(u)\bigr)\widetilde Q_d(u).
+\]
+The component germs $\widetilde Q_c$ and $\widetilde Q_d$ patch in the product ring $\Oc_U(\K)$ to give a global germ $Q$. This proves (2).
+
+Statement (3) follows by the same argument with $c$ and $d$ interchanged.
+
+For (4), work componentwise again. On $U_c$, the germ $u-d$ is a unit, so $M(c)=0$ implies $M(u)=(u-c)S_c(u)$ there. On $U_d$, the germ $u-c$ is a unit, so $M(d)=0$ implies $M(u)=(u-d)S_d(u)$ there. Dividing by the appropriate units and patching the quotients produces $S\in \Oc_U(\K)$ with \eqref{eq:div-cd}.
+\end{proof}
+
+The moduli theorem already implies a one-slice interpolation statement.
+
+\begin{theorem}[One-slice interpolation]\label{thm:one-slice}
+Let $D$ satisfy \eqref{eq:D-hypotheses}, and let $A\in \Oc_U(\K)$ satisfy
+\[
+A(c)=d,\qquad A(d)=c.
+\]
+Then there exists $f\in \Oc_{U\times U}(\K)$ such that
+\begin{equation}\label{eq:one-slice-target}
+f(u,u)=D(u),\qquad f\bigl(u,D(u)\bigr)\equiv c,\qquad f(u,c)=A(u).
+\end{equation}
+One explicit choice is obtained by defining
+\begin{equation}\label{eq:Q-one-slice}
+Q(u):=\frac{A(u)-L_D(u,c)}{(c-u)(c-D(u))}
+\end{equation}
+and setting
+\begin{equation}\label{eq:one-slice-formula}
+f(u,v):=L_D(u,v)+(v-u)\bigl(v-D(u)\bigr)Q(u).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Because $L_D(c,c)=d$ and $L_D(d,c)=c$ by Lemma~\ref{lem:D-basic}, the germ
+\[
+M(u):=A(u)-L_D(u,c)
+\]
+vanishes at both $c$ and $d$. Lemma~\ref{lem:orbit-divisibility} therefore shows that the quotient $Q$ in \eqref{eq:Q-one-slice} is analytic on $U$.
+
+Now define $f$ by \eqref{eq:one-slice-formula}. By Theorem~\ref{thm:moduli-reset-lifts}, the first two identities in \eqref{eq:one-slice-target} hold automatically. For the slice at $v=c$,
+\begin{align*}
+f(u,c)
+&=L_D(u,c)+(c-u)\bigl(c-D(u)\bigr)Q(u) \\
+&=L_D(u,c)+A(u)-L_D(u,c) \\
+&=A(u).
+\end{align*}
+This proves \eqref{eq:one-slice-target}.
+\end{proof}
+
+The most transparent special case is the reflection diagonal.
+
+\begin{remark}[Reflection lift and its first jets]\label{rem:reflection-jets}
+Assume in Theorem~\ref{thm:one-slice} that
+\[
+D(u)=c+d-u.
+\]
+Let
+\[
+\alpha:=A'(c),\qquad \beta:=A'(d).
+\]
+Then $D'(c)=D'(d)=-1$, and the one-slice lift has horizontal slices
+\begin{equation}\label{eq:reflection-horizontal-slices}
+f(c,v)=c+d-v+\frac{\alpha}{d-c}(v-c)(v-d),
+\end{equation}
+\begin{equation}\label{eq:reflection-horizontal-slices-d}
+f(d,v)=c+\frac{\beta}{c-d}(v-c)(v-d).
+\end{equation}
+Its first jets at the four orbit points are
+\begin{equation}\label{eq:reflection-jet-table}
+(\partial_1,\partial_2)f(c,c)=(\alpha,-1-\alpha),
+\end{equation}
+\begin{equation}\label{eq:reflection-jet-table-2}
+(\partial_1,\partial_2)f(c,d)=(\alpha-1,\alpha-1),
+\end{equation}
+\begin{equation}\label{eq:reflection-jet-table-3}
+(\partial_1,\partial_2)f(d,c)=(\beta,\beta),
+\end{equation}
+\begin{equation}\label{eq:reflection-jet-table-4}
+(\partial_1,\partial_2)f(d,d)=(\beta-1,-\beta).
+\end{equation}
+\end{remark}
+
+\begin{proof}
+When $D(u)=c+d-u$, Lemma~\ref{lem:D-basic} gives
+\[
+L_D(c,v)=c+d-v,\qquad L_D(d,v)=c.
+\]
+The quotient in \eqref{eq:Q-one-slice} satisfies
+\[
+Q(c)=\frac{\alpha}{d-c},\qquad Q(d)=\frac{\beta}{c-d},
+\]
+because the general formulas of Theorem~\ref{thm:two-slice} below reduce to these values when $D'(c)=D'(d)=-1$. Substituting $u=c$ and $u=d$ into \eqref{eq:one-slice-formula} yields \eqref{eq:reflection-horizontal-slices} and \eqref{eq:reflection-horizontal-slices-d}.
+
+Now differentiate. Since $f(u,c)=A(u)$, one has
+\[
+\partial_1 f(c,c)=A'(c)=\alpha,
+\qquad
+\partial_1 f(d,c)=A'(d)=\beta.
+\]
+Because $f(u,u)=D(u)=c+d-u$, differentiation along the diagonal gives
+\[
+\partial_1 f(c,c)+\partial_2 f(c,c)=-1,
+\qquad
+\partial_1 f(d,d)+\partial_2 f(d,d)=-1.
+\]
+Thus
+\[
+\partial_2 f(c,c)=-1-\alpha.
+\]
+From \eqref{eq:reflection-horizontal-slices-d},
+\[
+\partial_2 f(d,d)=\left.\frac{d}{dv}\right|_{v=d}\left(c+\frac{\beta}{c-d}(v-c)(v-d)\right)=-\beta,
+\]
+and hence
+\[
+\partial_1 f(d,d)=\beta-1.
+\]
+
+Next differentiate the reset identity $f(u,D(u))\equiv c$. Since $D'(c)=D'(d)=-1$, we get
+\[
+\partial_1 f(c,d)-\partial_2 f(c,d)=0,
+\qquad
+\partial_1 f(d,c)-\partial_2 f(d,c)=0.
+\]
+Differentiating \eqref{eq:reflection-horizontal-slices} at $v=d$ gives
+\[
+\partial_2 f(c,d)=\left.\frac{d}{dv}\right|_{v=d}\left(c+d-v+\frac{\alpha}{d-c}(v-c)(v-d)\right)=\alpha-1.
+\]
+Therefore $\partial_1 f(c,d)=\alpha-1$ as well. Since $\partial_1 f(d,c)=\beta$, the reset derivative at $d$ forces $\partial_2 f(d,c)=\beta$. This proves \eqref{eq:reflection-jet-table}--\eqref{eq:reflection-jet-table-4}.
+\end{proof}
+
+The next theorem shows that a second nonconstant slice may also be prescribed, and that the only obstruction is one first-jet equation.
+
+\begin{theorem}[Two-slice interpolation]\label{thm:two-slice}
+Let $D$ satisfy \eqref{eq:D-hypotheses}, and let $A,B\in \Oc_U(\K)$ satisfy
+\[
+A(c)=d,\qquad A(d)=c,\qquad B(c)=d,\qquad B(d)=c.
+\]
+Then there exists $f\in \Oc_{U\times U}(\K)$ such that
+\begin{equation}\label{eq:two-slice-target}
+f(u,u)=D(u),\qquad f\bigl(u,D(u)\bigr)\equiv c,
+\qquad f(u,c)=A(u),\qquad f(c,v)=B(v)
+\end{equation}
+if and only if
+\begin{equation}\label{eq:two-slice-compatibility}
+D'(c)=A'(c)+B'(c).
+\end{equation}
+When \eqref{eq:two-slice-compatibility} holds, one may choose
+\begin{equation}\label{eq:Q-two-slice}
+Q(u):=\frac{A(u)-L_D(u,c)}{(c-u)(c-D(u))},
+\end{equation}
+\begin{equation}\label{eq:S-two-slice}
+S(v):=\frac{B(v)-L_D(c,v)}{(v-c)(v-d)},
+\end{equation}
+and define
+\begin{equation}\label{eq:R-two-slice}
+R(u,v):=Q(u)e_c(v)+S(v)e_c(u)-Q(c)e_c(u)e_c(v),
+\end{equation}
+\begin{equation}\label{eq:f-two-slice}
+f(u,v):=L_D(u,v)+(v-u)\bigl(v-D(u)\bigr)R(u,v).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+We first isolate the analytic quotients $Q$ and $S$. Since $A(c)=L_D(c,c)=d$ and $A(d)=L_D(d,c)=c$, the germ $A(u)-L_D(u,c)$ vanishes at both $c$ and $d$. Lemma~\ref{lem:orbit-divisibility} therefore shows that $Q$ in \eqref{eq:Q-two-slice} is analytic. Likewise, $B(c)=L_D(c,c)=d$ and $B(d)=L_D(c,d)=c$, so $S$ in \eqref{eq:S-two-slice} is analytic by the factorization form \eqref{eq:div-cd} from Lemma~\ref{lem:orbit-divisibility}.
+
+Assume first that a binary germ $f$ satisfying \eqref{eq:two-slice-target} exists. By Theorem~\ref{thm:moduli-reset-lifts}, there exists an analytic germ $R$ with
+\[
+f(u,v)=L_D(u,v)+(v-u)\bigl(v-D(u)\bigr)R(u,v).
+\]
+Substituting $v=c$ gives
+\[
+A(u)-L_D(u,c)=(c-u)\bigl(c-D(u)\bigr)R(u,c),
+\]
+so by the definition of $Q$ one has
+\[
+R(u,c)=Q(u).
+\]
+Substituting $u=c$ and using $D(c)=d$ gives
+\[
+B(v)-L_D(c,v)=(v-c)(v-d)R(c,v),
+\]
+so by the definition of $S$ one has
+\[
+R(c,v)=S(v).
+\]
+The point $(c,c)$ lies in the component $U_c\times U_c$, and on that component $R$ is analytic. Hence the two restrictions must agree at $(c,c)$:
+\begin{equation}\label{eq:QcSc}
+Q(c)=S(c).
+\end{equation}
+This is the necessary compatibility.
+
+Conversely, assume that \eqref{eq:QcSc} holds. Because $e_c$ is locally constant, the formula \eqref{eq:R-two-slice} defines an analytic germ on $U\times U$. If $v=c$, then $e_c(v)=1$, so
+\[
+R(u,c)=Q(u)+\bigl(S(c)-Q(c)\bigr)e_c(u)=Q(u).
+\]
+If $u=c$, then similarly
+\[
+R(c,v)=S(v)+\bigl(Q(c)-Q(c)\bigr)e_c(v)=S(v).
+\]
+Now define $f$ by \eqref{eq:f-two-slice}. Theorem~\ref{thm:moduli-reset-lifts} gives the diagonal and reset identities. At $v=c$ one finds
+\begin{align*}
+f(u,c)
+&=L_D(u,c)+(c-u)\bigl(c-D(u)\bigr)R(u,c) \\
+&=L_D(u,c)+(c-u)\bigl(c-D(u)\bigr)Q(u) \\
+&=A(u).
+\end{align*}
+At $u=c$,
+\begin{align*}
+f(c,v)
+&=L_D(c,v)+(v-c)(v-d)R(c,v) \\
+&=L_D(c,v)+(v-c)(v-d)S(v) \\
+&=B(v).
+\end{align*}
+Thus \eqref{eq:two-slice-target} holds.
+
+It remains to show that \eqref{eq:QcSc} is equivalent to \eqref{eq:two-slice-compatibility}. Since $Q$ and $S$ are analytic, we can compute their values at $c$ by differentiating numerator and denominator. First, Lemma~\ref{lem:D-basic} gives
+\[
+L_D(c,v)=c+d-v,
+\]
+so
+\[
+\partial_2 L_D(c,c)=-1.
+\]
+Differentiating the identity $L_D(u,u)=D(u)$ at $u=c$ gives
+\[
+\partial_1 L_D(c,c)+\partial_2 L_D(c,c)=D'(c),
+\]
+whence
+\[
+\partial_1 L_D(c,c)=D'(c)+1.
+\]
+The numerator of $Q$ vanishes at $c$, and the denominator
+\[
+(c-u)\bigl(c-D(u)\bigr)
+\]
+has derivative $d-c$ at $u=c$. Therefore
+\begin{equation}\label{eq:Qc-formula}
+Q(c)=\frac{A'(c)-D'(c)-1}{d-c}.
+\end{equation}
+Likewise, the numerator of $S$ vanishes at $v=c$, the denominator $(v-c)(v-d)$ has derivative $c-d$ at $v=c$, and
+\[
+\partial_2 L_D(c,c)=-1.
+\]
+Hence
+\begin{equation}\label{eq:Sc-formula}
+S(c)=\frac{B'(c)+1}{c-d}.
+\end{equation}
+Equating \eqref{eq:Qc-formula} and \eqref{eq:Sc-formula} gives
+\[
+A'(c)-D'(c)-1=-(B'(c)+1),
+\]
+which is exactly \eqref{eq:two-slice-compatibility}.
+\end{proof}
+
+\begin{corollary}[Reflection barrier]\label{cor:reflection-barrier}
+In the setting of Theorem~\ref{thm:two-slice}, assume that $D(u)=c+d-u$. Then a two-slice interpolation exists if and only if
+\[
+A'(c)+B'(c)=-1.
+\]
+\end{corollary}
+
+\begin{proof}
+For the reflection diagonal one has $D'(c)=-1$. Theorem~\ref{thm:two-slice} therefore reduces the existence question to the single equation
+\[
+-1=A'(c)+B'(c).
+\]
+\end{proof}
+
+The same method extends to all four orbit-adjacent slices. The result is not needed for the exp/log corollary, but it clarifies how much freedom remains inside a two-cycle reset lift.
+
+\begin{theorem}[Four-slice interpolation]\label{thm:four-slice}
+Let $D$ satisfy \eqref{eq:D-hypotheses}. Let $A,B,C,E\in \Oc_U(\K)$ satisfy
+\[
+A(c)=d,\quad A(d)=c,\qquad B(c)=d,\quad B(d)=c,
+\]
+\[
+C(c)=c,\quad C(d)=c,\qquad E(c)=c,\quad E(d)=c.
+\]
+Then there exists $f\in \Oc_{U\times U}(\K)$ such that
+\begin{align}
+&f(u,u)=D(u),\qquad f\bigl(u,D(u)\bigr)\equiv c, \label{eq:four-slice-main-1}\\
+&f(u,c)=A(u),\qquad f(c,v)=B(v),\qquad f(u,d)=C(u),\qquad f(d,v)=E(v) \label{eq:four-slice-main-2}
+\end{align}
+if and only if the following four first-jet conditions hold:
+\begin{equation}\label{eq:four-slice-jets-1}
+D'(c)=A'(c)+B'(c),
+\end{equation}
+\begin{equation}\label{eq:four-slice-jets-2}
+C'(c)+D'(c)B'(d)=0,
+\end{equation}
+\begin{equation}\label{eq:four-slice-jets-3}
+E'(c)+D'(c)A'(d)=0,
+\end{equation}
+\begin{equation}\label{eq:four-slice-jets-4}
+D'(d)=C'(d)+E'(d).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Define the four analytic quotients
+\begin{equation}\label{eq:Q-four}
+Q(u):=\frac{A(u)-L_D(u,c)}{(c-u)(c-D(u))},
+\end{equation}
+\begin{equation}\label{eq:S-four}
+S(v):=\frac{B(v)-L_D(c,v)}{(v-c)(v-d)},
+\end{equation}
+\begin{equation}\label{eq:T-four}
+T(u):=\frac{C(u)-L_D(u,d)}{(d-u)(d-D(u))},
+\end{equation}
+\begin{equation}\label{eq:P-four}
+P(v):=\frac{E(v)-L_D(d,v)}{(v-d)(v-c)}.
+\end{equation}
+The value assumptions and Lemma~\ref{lem:orbit-divisibility} show that all four quotients are analytic on $U$.
+
+Assume first that a binary germ $f$ satisfying \eqref{eq:four-slice-main-1}--\eqref{eq:four-slice-main-2} exists. By Theorem~\ref{thm:moduli-reset-lifts},
+\[
+f(u,v)=L_D(u,v)+(v-u)\bigl(v-D(u)\bigr)R(u,v)
+\]
+for some analytic $R$. Evaluating this identity on the four prescribed slices yields
+\[
+R(u,c)=Q(u),\qquad R(c,v)=S(v),\qquad R(u,d)=T(u),\qquad R(d,v)=P(v).
+\]
+Since $R$ is analytic on each component, the restrictions must agree at the four corner points:
+\begin{equation}\label{eq:corner-compatibilities}
+Q(c)=S(c),\qquad T(c)=S(d),\qquad Q(d)=P(c),\qquad T(d)=P(d).
+\end{equation}
+We now compute these four equalities explicitly.
+
+From Lemma~\ref{lem:D-basic},
+\[
+L_D(c,v)=c+d-v,
+\]
+so
+\[
+\partial_2L_D(c,c)=\partial_2L_D(c,d)=-1.
+\]
+Differentiating $L_D(u,u)=D(u)$ at $u=c$ gives
+\[
+\partial_1L_D(c,c)=D'(c)+1.
+\]
+Differentiating $L_D\bigl(u,D(u)\bigr)\equiv c$ at $u=c$ gives
+\[
+\partial_1L_D(c,d)+D'(c)\partial_2L_D(c,d)=0,
+\]
+so
+\[
+\partial_1L_D(c,d)=D'(c).
+\]
+Since $L_D(d,v)=c$ for all $v$, one has
+\[
+\partial_2L_D(d,c)=\partial_2L_D(d,d)=0.
+\]
+Differentiating $L_D\bigl(u,D(u)\bigr)\equiv c$ at $u=d$ gives
+\[
+\partial_1L_D(d,c)+D'(d)\partial_2L_D(d,c)=0,
+\]
+hence
+\[
+\partial_1L_D(d,c)=0.
+\]
+Finally, differentiating $L_D(u,u)=D(u)$ at $u=d$ yields
+\[
+\partial_1L_D(d,d)=D'(d).
+\]
+
+We next compute the corner values of $Q,S,T,P$.
+
+At $u=c$, the denominator of $Q$ has derivative $d-c$, while the numerator has derivative $A'(c)-\partial_1L_D(c,c)$. Thus
+\begin{equation}\label{eq:Qccalc}
+Q(c)=\frac{A'(c)-D'(c)-1}{d-c}.
+\end{equation}
+At $v=c$, the denominator of $S$ has derivative $c-d$, while the numerator has derivative $B'(c)-\partial_2L_D(c,c)=B'(c)+1$. Hence
+\begin{equation}\label{eq:Sccalc}
+S(c)=\frac{B'(c)+1}{c-d}.
+\end{equation}
+The equality $Q(c)=S(c)$ is therefore equivalent to \eqref{eq:four-slice-jets-1}.
+
+At $u=c$, the denominator of $T$ has derivative $-(d-c)D'(c)$ because $D(c)=d$. The numerator has derivative $C'(c)-\partial_1L_D(c,d)=C'(c)-D'(c)$. Therefore
+\begin{equation}\label{eq:Tccalc}
+T(c)=\frac{C'(c)-D'(c)}{-(d-c)D'(c)}.
+\end{equation}
+At $v=d$, the denominator of $S$ has derivative $d-c$, while the numerator has derivative $B'(d)-\partial_2L_D(c,d)=B'(d)+1$. Hence
+\begin{equation}\label{eq:Sdcalc}
+S(d)=\frac{B'(d)+1}{d-c}.
+\end{equation}
+The equality $T(c)=S(d)$ is equivalent to \eqref{eq:four-slice-jets-2}.
+
+At $u=d$, the denominator of $Q$ has derivative $(d-c)D'(d)$ because $D(d)=c$. The numerator has derivative $A'(d)-\partial_1L_D(d,c)=A'(d)$. Thus
+\begin{equation}\label{eq:Qdcalc}
+Q(d)=\frac{A'(d)}{(d-c)D'(d)}.
+\end{equation}
+At $v=c$, the denominator of $P$ has derivative $c-d$, while the numerator has derivative $E'(c)-\partial_2L_D(d,c)=E'(c)$. So
+\begin{equation}\label{eq:Pccalc}
+P(c)=\frac{E'(c)}{c-d}.
+\end{equation}
+The equality $Q(d)=P(c)$ is equivalent to \eqref{eq:four-slice-jets-3} because $D'(d)=1/D'(c)$ by Lemma~\ref{lem:D-basic}.
+
+At $u=d$, the denominator of $T$ has derivative $c-d$, while the numerator has derivative $C'(d)-\partial_1L_D(d,d)=C'(d)-D'(d)$. Hence
+\begin{equation}\label{eq:Tdcalc}
+T(d)=\frac{C'(d)-D'(d)}{c-d}.
+\end{equation}
+At $v=d$, the denominator of $P$ has derivative $d-c$, while the numerator has derivative $E'(d)-\partial_2L_D(d,d)=E'(d)$. Therefore
+\begin{equation}\label{eq:Pdcalc}
+P(d)=\frac{E'(d)}{d-c}.
+\end{equation}
+The equality $T(d)=P(d)$ is equivalent to \eqref{eq:four-slice-jets-4}.
+
+This proves necessity.
+
+Conversely, assume that the four jet conditions hold. Then the four corner equalities \eqref{eq:corner-compatibilities} hold by the computations above. Define
+\begin{align}
+R(u,v):={}&\bigl(Q(u)+S(v)-Q(c)\bigr)e_c(u)e_c(v) \notag\\
+&+\bigl(T(u)+S(v)-T(c)\bigr)e_c(u)e_d(v) \notag\\
+&+\bigl(Q(u)+P(v)-Q(d)\bigr)e_d(u)e_c(v) \notag\\
+&+\bigl(T(u)+P(v)-T(d)\bigr)e_d(u)e_d(v). \label{eq:R-four-slice}
+\end{align}
+Because the idempotents are locally constant, $R$ is analytic on $U\times U$.
+
+We claim that
+\begin{equation}\label{eq:R-four-restrictions}
+R(u,c)=Q(u),\qquad R(c,v)=S(v),\qquad R(u,d)=T(u),\qquad R(d,v)=P(v).
+\end{equation}
+To prove the first identity, note that $e_c(c)=1$ and $e_d(c)=0$. If $u\in U_c$, then $e_c(u)=1$ and $e_d(u)=0$, so
+\[
+R(u,c)=Q(u)+S(c)-Q(c)=Q(u)
+\]
+by the first corner equality in \eqref{eq:corner-compatibilities}. If $u\in U_d$, then $e_c(u)=0$ and $e_d(u)=1$, so
+\[
+R(u,c)=Q(u)+P(c)-Q(d)=Q(u)
+\]
+by the third corner equality. Thus $R(u,c)=Q(u)$ on both components. The same componentwise argument gives the other three identities in \eqref{eq:R-four-restrictions}, using the appropriate corner equalities.
+
+Now define
+\[
+f(u,v):=L_D(u,v)+(v-u)\bigl(v-D(u)\bigr)R(u,v).
+\]
+Theorem~\ref{thm:moduli-reset-lifts} gives \eqref{eq:four-slice-main-1}. To obtain the slice formulas, substitute \eqref{eq:R-four-restrictions}. For example,
+\begin{align*}
+f(u,c)
+&=L_D(u,c)+(c-u)\bigl(c-D(u)\bigr)R(u,c) \\
+&=L_D(u,c)+(c-u)\bigl(c-D(u)\bigr)Q(u) \\
+&=A(u),
+\end{align*}
+and the same computation with $v=d$, $u=c$, and $u=d$ gives the remaining identities in \eqref{eq:four-slice-main-2}. This proves sufficiency.
+\end{proof}
+
+A simple family of involutions provides a convenient way to prescribe the derivative of the diagonal at one orbit point.
+
+\begin{lemma}[M"obius involutions exchanging two points]\label{lem:mobius-involution}
+Let $c,d\in\C$ with $c\neq d$, and let $\mu\in\C^\times$. Define
+\[
+\phi(z):=\frac{z-c}{d-c},\qquad g_\mu(w):=\frac{1-w}{1-(1+\mu)w},
+\]
+and set
+\begin{equation}\label{eq:Dmu-def}
+D_\mu:=\phi^{-1}\circ g_\mu\circ \phi.
+\end{equation}
+Then $D_\mu$ is a M"obius involution on the Riemann sphere satisfying
+\[
+D_\mu(c)=d,\qquad D_\mu(d)=c,\qquad D_\mu\circ D_\mu=\id,
+\]
+and
+\[
+D_\mu'(c)=\mu,\qquad D_\mu'(d)=\frac{1}{\mu}.
+\]
+In particular, after shrinking to sufficiently small disjoint neighborhoods of $c$ and $d$, the restriction of $D_\mu$ satisfies \eqref{eq:D-hypotheses}.
+\end{lemma}
+
+\begin{proof}
+The map $g_\mu$ is well defined on the Riemann sphere because it is a fractional linear transformation with nonzero determinant $\mu$. Direct substitution gives
+\[
+g_\mu(0)=1,\qquad g_\mu(1)=0.
+\]
+To prove that $g_\mu$ is an involution, write $t=g_\mu(w)$. Then
+\[
+t\bigl(1-(1+\mu)w\bigr)=1-w.
+\]
+Rearranging terms gives
+\[
+\bigl(1-(1+\mu)t\bigr)w=1-t,
+\]
+and therefore
+\[
+w=\frac{1-t}{1-(1+\mu)t}=g_\mu(t).
+\]
+Thus $g_\mu\circ g_\mu=\id$.
+
+Differentiate $g_\mu$ explicitly:
+\begin{align*}
+g_\mu'(w)
+&=\frac{-\bigl(1-(1+\mu)w\bigr)-(1-w)\bigl(-(1+\mu)\bigr)}{\bigl(1-(1+\mu)w\bigr)^2} \\
+&=\frac{\mu}{\bigl(1-(1+\mu)w\bigr)^2}.
+\end{align*}
+Hence
+\[
+g_\mu'(0)=\mu,\qquad g_\mu'(1)=\frac{1}{\mu}.
+\]
+The map $\phi$ sends $c$ to $0$ and $d$ to $1$, so the conjugate $D_\mu$ satisfies
+\[
+D_\mu(c)=d,\qquad D_\mu(d)=c,\qquad D_\mu\circ D_\mu=\id.
+\]
+Because $\phi$ is affine, its derivative is constant and cancels in the chain rule. Therefore
+\[
+D_\mu'(c)=g_\mu'(0)=\mu,
+\qquad
+D_\mu'(d)=g_\mu'(1)=\frac{1}{\mu}.
+\]
+Since both derivatives are nonzero, $D_\mu$ is locally biholomorphic at $c$ and $d$. Shrinking to sufficiently small disjoint neighborhoods of these two points yields the required local involution.
+\end{proof}
+
+The two-slice theorem now allows one to place the exponential and a logarithm branch into the same two-cycle reset lift.
+
+\begin{corollary}[Exponential and a logarithm branch on the same $2$-cycle]\label{cor:exp-log-two-cycle}
+Let $c,d\in\C$ be distinct and satisfy
+\[
+e^c=d,\qquad e^d=c.
+\]
+Let $A(u)=e^u$, and let $B\in \Oc_{\{c,d\}}(\C)$ be a unary germ along $\{c,d\}$ such that
+\[
+B(c)=d,\qquad B(d)=c,
+\qquad B'(c)=\frac{1}{c}.
+\]
+Set
+\[
+\mu:=d+\frac{1}{c}.
+\]
+Let $D_\mu$ be the involution from Lemma~\ref{lem:mobius-involution}. Then there exists a holomorphic binary germ $f$ along $\{c,d\}^2$ such that
+\[
+f(u,u)=D_\mu(u),\qquad f\bigl(u,D_\mu(u)\bigr)\equiv c,
+\qquad f(u,c)=e^u,
+\qquad f(c,v)=B(v).
+\]
+Consequently the unary term clone of $f$ contains the two distinct constants $c$ and $d$, the exponential germ, and the logarithm germ $B$.
+\end{corollary}
+
+\begin{proof}
+We first show that
+\begin{equation}\label{eq:mu-exp-cycle-nonzero}
+\mu=d+\frac{1}{c}\neq 0.
+\end{equation}
+Suppose instead that $\mu=0$. Then $d=-1/c$. Taking absolute values in the relations $d=e^c$ and $c=e^d$ gives
+\[
+\frac{1}{|c|}=e^{\Re(c)},
+\qquad
+|c|=e^{\Re(d)}=e^{-\Re(1/c)}=e^{-\Re(c)/|c|^2}.
+\]
+Taking logarithms yields
+\[
+\log|c|=-\Re(c),
+\qquad
+\log|c|=-\frac{\Re(c)}{|c|^2}.
+\]
+Subtracting these two equations gives
+\[
+\Re(c)\left(1-\frac{1}{|c|^2}\right)=0.
+\]
+If $\Re(c)=0$, then the first logarithmic identity gives $\log|c|=0$, hence $|c|=1$. If $|c|=1$, then the first logarithmic identity again gives $\Re(c)=0$. Thus both conditions hold, so $c$ is purely imaginary and has modulus $1$. Therefore $c=\pm i$.
+
+If $c=i$, then $d=-1/c=i$, contradicting $d=e^c=e^i$. If $c=-i$, then $d=-1/c=-i$, contradicting $d=e^c=e^{-i}$. This contradiction proves \eqref{eq:mu-exp-cycle-nonzero}.
+
+Since $A'(c)=e^c=d$ and $B'(c)=1/c$, the compatibility condition of Theorem~\ref{thm:two-slice} reads
+\[
+D_\mu'(c)=d+\frac{1}{c}=\mu,
+\]
+which now makes sense because of \eqref{eq:mu-exp-cycle-nonzero} and holds by construction of $D_\mu$. Therefore Theorem~\ref{thm:two-slice} yields a holomorphic binary germ $f$ with the required slice identities.
+
+The constant $c$ is obtained from the reset term
+\[
+t(u):=f\bigl(u,D_\mu(u)\bigr),
+\]
+which is identically equal to $c$. Since $f(u,u)=D_\mu(u)$, one has
+\[
+f\bigl(t(u),t(u)\bigr)=f(c,c)=D_\mu(c)=d.
+\]
+Thus the unary term clone contains both constants $c$ and $d$. The slice identities give the exponential germ $u\mapsto e^u$ and the logarithm germ $v\mapsto B(v)$.
+\end{proof}
+
+In particular, every complex $2$-cycle of the exponential is admissible for Corollary~\ref{cor:exp-log-two-cycle}. Bergweiler proved that every transcendental entire function has infinitely many periodic points of every period greater than $1$ \cite{Bergweiler1991}; see also his survey \cite{Bergweiler1993}. Thus the exponential has infinitely many complex $2$-cycles, and the corollary applies to each of them. For the paper we also record one explicit cycle and verify the resulting identities numerically.
+
+\subsection*{A computed exponential $2$-cycle}
+
+A Newton solve for $e^{e^z}=z$ with $80$-digit arithmetic produces the pair
+\[
+\begin{aligned}
+c \approx{}& 3.7567652815725784678422918566083452574054174644\\
+&127706123003482385112402345226397403\\
+&{}-11.0530078650574705976153326503771422534221991352\\
+&13883318285370741089406031920099591\, i,
+\end{aligned}
+\]
+\[
+\begin{aligned}
+d \approx{}& 2.4573641183327464745183407188825388935076030672\\
+&477668531722219743458222712621112601\\
+&{}+42.7391373544821908166428259028751844549794392454\\
+&35546990754672763102069019798964931\, i.
+\end{aligned}
+\]
+At that precision one finds
+\[
+|e^d-c|\approx 3.14\times 10^{-78},
+\]
+so the pair is a genuine numerical period-$2$ witness to the displayed precision. For this pair,
+\[
+\begin{aligned}
+\mu=d+\frac{1}{c}\approx{}& 2.4849301790530994985560661911541687907623960735\\
+&459498441599163343566778712924812\\
+&{}+42.8202411400833960405561122540386854782200933209\\
+&64382844015636883198574238606660\, i,
+\end{aligned}
+\]
+which is visibly nonzero.
+
+The corresponding local logarithm germ is obtained by solving
+\[
+\Logp(c)+2n\pi i=d,
+\qquad
+\Logp(d)+2m\pi i=c,
+\]
+for integers $n$ and $m$. For the displayed numerical cycle one finds
+\[
+\frac{\Im(d)-\Im(\Logp(c))}{2\pi}\approx 7.0000000000000000000,
+\qquad
+\frac{\Im(c)-\Im(\Logp(d))}{2\pi}\approx -2.0000000000000000000,
+\]
+so the unique choices are $n=7$ and $m=-2$. Thus
+\[
+B(z)=\Logp(z)+14\pi i \quad \text{near } c,
+\qquad
+B(z)=\Logp(z)-4\pi i \quad \text{near } d.
+\]
+The branch checks are
+\[
+\bigl|\Logp(c)+14\pi i-d\bigr|\approx 2.74\times 10^{-79},
+\qquad
+\bigl|\Logp(d)-4\pi i-c\bigr|\approx 1.69\times 10^{-80}.
+\]
+Using the formulas of Corollary~\ref{cor:exp-log-two-cycle}, one then verifies numerically that the identities
+\[
+f(u,u)=D_\mu(u),\qquad f\bigl(u,D_\mu(u)\bigr)=c,
+\qquad f(u,c)=e^u,
+\qquad f(c,v)=B(v)
+\]
+hold to working precision on sample points $u=c+(1+i)10^{-12}$ and $u=d+(1+i)10^{-12}$; the residuals are zero to $80$-digit working precision. A short verification script is included in the source bundle.
+
+\begin{remark}
+Three conclusions are worth making explicit. First, in the disconnected finite-orbit category, pure constant generation is purely combinatorial by Proposition~\ref{prop:finite-orbit-triviality}. Second, on a $2$-cycle the first nontrivial interpolation problem is still flexible: one prescribed slice costs nothing, two prescribed slices cost exactly one first-jet equation, and the four-slice theorem shows that even the full orbit-adjacent data remain governed by finitely many explicit jet equalities. Third, the barrier between these local orbit constructions and Odrzywo{\l}ek's global EML theorem is no longer local multi-constant seeding. It is connected or global realization, coherent branch control, and enough simultaneous structure to recover a calculator basis on a connected domain.
+\end{remark}
+
+\section{Discussion}\label{sec:discussion}
+
+The paper leaves the self-seeding problem in a more precise state than the original constant-diagonal formulation. At one point, the picture is complete. Theorem~\ref{thm:diag-ideal} kills constant diagonals, Theorem~\ref{thm:hardy} kills purely real logarithmico-exponential primitives, Theorem~\ref{thm:fixed-point-lift} shows that self-seeding plus one prescribed transcendental germ is possible, and Proposition~\ref{prop:fixed-seed} shows why those fixed-point lifts never produce a second constant.
+
+Along a disconnected finite orbit the situation changes completely. Proposition~\ref{prop:finite-orbit-triviality} shows that pure constant generation is a finite-shadow problem. Proposition~\ref{prop:two-state-shadow} classifies that shadow for the first nontrivial orbit. Theorem~\ref{thm:moduli-reset-lifts} then describes the full affine space of analytic lifts, and Theorems~\ref{thm:one-slice}, \ref{thm:two-slice}, and \ref{thm:four-slice} show that a surprising amount of analytic structure may be imposed without obstruction. In particular, Corollary~\ref{cor:exp-log-two-cycle} puts two constants, the exponential germ, and a logarithm branch into the same self-seeding binary germ along a finite orbit. The remaining frontier is therefore not local multi-constant self-seeding.
+
+What remains is connected or global realization. Odrzywo{\l}ek's original theorem is about a concrete calculator basis on ordinary connected domains, with branch-sensitive identities and a single global operator \cite{Odrzywolek2026}. Our two-cycle constructions live instead on a disconnected union of neighborhoods. To bridge that gap one needs a different kind of argument. The relevant nearby literatures are not the Hardy-field and local-ring tools used here, but local holomorphic dynamics near periodic points \cite{Abate2010}, semiconjugacy and iteration theory \cite{Pakovich2016}, and, if explicit formulas cease to exist, formal-to-convergent lifting methods in the style of Artin approximation \cite{Hauser2017}.
+
+On the real side it is also important to separate the local asymptotic obstruction from o-minimality. The Hardy-field obstruction is a statement about germs at $+\infty$. By contrast, o-minimal structures control global definability and forbid infinite discrete oscillation. In particular global sine is not definable in an o-minimal expansion of the real field, so the real-analytic escape supplied by Corollary~\ref{cor:sin-example} should not be confused with o-minimal tameness; compare van den Dries' account of tame topology \cite{vandenDries1998}. The right global framework for the remaining connected problem is therefore unlikely to be ordinary o-minimality.
+
+A different line of future work is complexity. The finite-shadow point of view makes reset depth and reset size natural invariants, and the synchronizing-automata literature suggests that genuine lower bounds should exist \cite{Volkov2008}. At present, however, the clearest next mathematical step is not a depth lower bound. It is to understand whether the disconnected two-cycle constructions of Section~\ref{sec:two-cycle} can be globalized without destroying their branch data and reset behavior.
+
+\appendix
+
+\section{The branch-correct EML core}\label{app:eml}
+
+Odrzywo{\l}ek's paper uses the principal logarithm in prose but later notes a sign mismatch on the negative real axis \cite{Odrzywolek2026}. The public verification code in the accompanying repository resolves this by changing the logarithm used internally by EML \cite{OdrzywolekRepo,OdrzywolekVerifier}. We isolate the theorem-level symbolic core here.
+
+Define
+\[
+\Argdown\colon \C^\times\to [-\pi,\pi),
+\qquad
+\Logdown z:=\log|z|+i\Argdown(z),
+\]
+and set
+\begin{equation}\label{eq:E-down-def}
+E_{\downarrow}(x,y):=e^x-\Logdown(y).
+\end{equation}
+Thus on the negative real axis one has $\Logdown(x)=\log|x|-i\pi$.
+
+\begin{proposition}[Branch-correct core EML identities]\label{prop:branch-correct-eml}
+Let $E_{\downarrow}$ be defined by \eqref{eq:E-down-def}. Define
+\[
+\exp_E(z):=E_{\downarrow}(z,1),
+\qquad
+\log_E(z):=E_{\downarrow}\bigl(1,\exp_E(E_{\downarrow}(1,z))\bigr)
+\qquad (z\in \C^\times).
+\]
+Then
+\[
+\exp_E(z)=e^z\qquad (z\in \C),
+\]
+and
+\[
+\log_E(z)=\Logp(z)\qquad (z\in \C^\times),
+\]
+where $\Logp$ is the usual principal logarithm with argument in $(-\pi,\pi]$. In particular,
+\[
+\log_E(-1)=i\pi.
+\]
+Moreover,
+\[
+0=E_{\downarrow}\bigl(1,E_{\downarrow}(E_{\downarrow}(1,1),1)\bigr)
+\]
+as a symbolic identity.
+\end{proposition}
+
+\begin{proof}
+Since $\Logdown(1)=0$, one has immediately
+\[
+\exp_E(z)=E_{\downarrow}(z,1)=e^z.
+\]
+Now write $z=re^{i\theta}$ with $r>0$ and $\theta\in(-\pi,\pi]$. Then
+\[
+E_{\downarrow}(1,z)=e-\Logdown(z).
+\]
+Using the definition of $\exp_E$ we obtain
+\[
+\exp_E\bigl(E_{\downarrow}(1,z)\bigr)
+=\exp\bigl(e-\Logdown(z)\bigr)
+=\frac{e^e}{z}.
+\]
+The point $e^e/z=(e^e/r)e^{-i\theta}$ has lower-edge argument $-\theta$, and this lies in $[-\pi,\pi)$ because $\theta\in(-\pi,\pi]$. Therefore
+\[
+\Logdown\!\left(\frac{e^e}{z}\right)=e-\log r-i\theta.
+\]
+Substituting into the definition of $\log_E$ gives
+\begin{align*}
+\log_E(z)
+&=e-\Logdown\!\left(\frac{e^e}{z}\right) \\
+&=e-\bigl(e-\log r-i\theta\bigr) \\
+&=\log r+i\theta \\
+&=\Logp(z).
+\end{align*}
+This proves the logarithm identity and in particular the sign-correct evaluation
+\[
+\log_E(-1)=i\pi.
+\]
+Finally,
+\begin{align*}
+E_{\downarrow}\bigl(1,E_{\downarrow}(E_{\downarrow}(1,1),1)\bigr)
+&=e-\Logdown\bigl(e^{E_{\downarrow}(1,1)}\bigr) \\
+&=e-\Logdown(e^e) \\
+&=e-e \\
+&=0.
+\end{align*}
+This is the claimed zero witness.
+\end{proof}
+
+\begin{remark}
+Proposition~\ref{prop:branch-correct-eml} is the theorem-level part of the EML section. It proves the correct branch convention and the key negative-axis sign identity. The larger public witness chain for Table~1 of \cite{Odrzywolek2026} is checked by a Mathematica verifier in the public repository \cite{OdrzywolekRepo,OdrzywolekVerifier}. That verifier mixes symbolic simplification with numerical spot checks, and some identities are routed through canonical witnesses rather than discharged directly. For that reason we do not elevate the full calculator-basis chain to theorem status here. The honest claim is a branch-correct symbolic core plus a larger mixed symbolic--numerical verification.
+\end{remark}
+
+\section*{Acknowledgments}
+
+AI tools were used for language editing.
+
+\bibliographystyle{amsalpha}
+\bibliography{references}
+
+\end{document}
